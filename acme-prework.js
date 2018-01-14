@@ -46,26 +46,48 @@ var lineItems = [
 //keys are the ids of products
 //the values are the products themselves
 function generateProductsMap(products){
-  //TODO
+  return products.reduce(function(memo, curr){
+    memo[curr.id] = curr;
+    return memo;
+  }, {});
 }
 
 //returns an object
 //keys are the ids of products
 //value is the total revenue for that product
 function salesByProduct(products, lineItems){
-  //TODO
-}
+  var productsMap = generateProductsMap(products);
+  return lineItems.reduce(function(memo, curr) {
+    memo[curr.productId] = (memo[curr.productId] || 0) + (1  * productsMap[curr.productId].price);
+    return memo;
+  },{})
+};
 
 //return the total revenue for all products
-function totalSales(products, lineItems){
-  //TODO
 
-}
+function totalSales(products, lineItems){
+  var sales = salesByProduct(products, lineItems);
+  return Object.values(sales).reduce(function(a,b) {return a + b})
+};
+
+/*
+function totalSales(products, lineItems){
+  var sales = salesByProduct(products, lineItems);
+  return Object.values(sales).reduce(function(a,b) {return a + b})
+  }, 0)
+};
+*/
 
 //return the product responsible for the most revenue
 function topSellerByRevenue(products, lineItems){
-  //TODO
+  var sales = salesByProduct(products, lineItems);
+// returns only the max value:
+  return Object.values(sales).reduce(function(prev, curr) {
+   return prev > curr ? prev : curr;
+  });
 }
+
+/*
 console.log(`generates product map - should be
 {
   1:{
@@ -94,3 +116,4 @@ console.log(`sales by product - should be
 }`, salesByProduct( products, lineItems));
 console.log('total sales - should be 22', totalSales( products, lineItems));
 console.log('top seller by revenue', topSellerByRevenue(products, lineItems ));
+*/
