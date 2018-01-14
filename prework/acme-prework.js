@@ -55,6 +55,21 @@ function generateProductsMap(products){
 //returns an object
 //keys are the ids of products
 //value is the total revenue for that product
+
+
+function salesByProduct(products, lineItems) {
+  var productsMap = generateProductsMap(products);
+  return lineItems.reduce(function(finalObj, curr) {
+    if(!finalObj[curr.productId]) {
+      finalObj[curr.productId] = productsMap[curr.productId].price * curr.quantity;
+    } else {
+      finalObj[curr.productId] += productsMap[curr.productId].price * curr.quantity;
+    }  
+    return finalObj; 
+  }, {});
+}
+
+/*
 function salesByProduct(products, lineItems){
   var productsMap = generateProductsMap(products);
   return lineItems.reduce(function(memo, curr) {
@@ -62,6 +77,7 @@ function salesByProduct(products, lineItems){
     return memo;
   },{})
 };
+*/
 
 //return the total revenue for all products
 
