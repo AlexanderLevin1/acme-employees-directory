@@ -73,7 +73,7 @@ function salesByProduct(products, lineItems) {
 function salesByProduct(products, lineItems){
   var productsMap = generateProductsMap(products);
   return lineItems.reduce(function(memo, curr) {
-    memo[curr.productId] = (memo[curr.productId] || 0) + (1  * productsMap[curr.productId].price);
+    memo[curr.productId] = (memo[curr.productId] || 0) + (curr.quantity  * productsMap[curr.productId].price);
     return memo;
   },{})
 };
@@ -85,14 +85,6 @@ function totalSales(products, lineItems){
   var sales = salesByProduct(products, lineItems);
   return Object.values(sales).reduce(function(a,b) {return a + b})
 };
-
-/*
-function totalSales(products, lineItems){
-  var sales = salesByProduct(products, lineItems);
-  return Object.values(sales).reduce(function(a,b) {return a + b})
-  }, 0)
-};
-*/
 
 //return the product responsible for the most revenue
 function topSellerByRevenue(products, lineItems){
