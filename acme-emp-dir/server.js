@@ -22,8 +22,12 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res, next) => {
     Employee.findAll({})
-        .then( employee => {
-            res.render('index', { employee, title: 'Home'});
+        .then( employees => {
+            const count = employees.reduce((acc, e) => {
+                acc = acc.concat(e.nickName)
+                return acc;
+            }, [])
+            res.render('layout', { employees, count: count } );
         })
         .catch(next);
 })

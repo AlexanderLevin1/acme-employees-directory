@@ -7,7 +7,7 @@
     <div class='container'>
       <h1>{{ title }}</h1>
       {% include './nav.html' %}
-      <h3>We are a growing company, we currently have [X] employees and [Y] nicknames!</h3>
+      <h3>We are a growing company, we currently have <span class = "badge badge-primary"> {{ employees.length}} </span> employees and <span class = "badge badge-primary"> {{ count.length }} </span> nicknames!</h3>
       {% block content %}
       {% endblock %}
       </div>

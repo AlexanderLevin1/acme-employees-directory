@@ -20,8 +20,9 @@
     {% for employee in employees %}
     <li class="list-group-item">
         <a href='/employees/{{employee.id}}'>
-            {{ employee.fullName }}
-        </a>
+            {{ employee.fullName }} 
+        </a> 
+        {{employee.nickName.length}} nicknames
     </li>
     {% endfor %}
 </ul>

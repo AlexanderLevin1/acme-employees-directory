@@ -19,18 +19,16 @@ const Employee = conn.define('employee', {
             notEmpty: true
         }
     },
-    // nickName:{
-    //     type: Sequelize.ARRAY
-    // }
+    nickName: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        set: function (value) {
+            if ((typeof value) === 'string') this.setDataValue('nickName', value.split(','))
+        }
+    }
 }, {
         getterMethods: {
             fullName() {
                 return this.firstName + ' ' + this.lastName;
-            }
-        },
-        setterMethods: {
-            nickname(value) {
-                const name = value.split(',');
             }
         }
     }

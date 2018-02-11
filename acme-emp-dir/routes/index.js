@@ -7,7 +7,11 @@ module.exports = app;
 app.get('/', (req, res, next) => {
     Employee.findAll({})
         .then(employees => {
-            res.render('employees', { employees, title: 'Employees' });
+            const count = employees.reduce((acc, e) => {
+                acc = acc.concat(e.nickName)
+                return acc;
+            }, [])
+            res.render('employees', { employees, title: 'Employees' , count: count});
         })
         .catch(next);
 });
