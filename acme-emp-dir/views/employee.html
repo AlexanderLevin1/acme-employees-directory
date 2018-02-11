@@ -1,5 +1,5 @@
 {% extends './layout.html' %} {% block content %}
-<form action='/employees' method='POST'>
+<form action='/employees/{{ employee.id }}?_method=PUT' method='POST'>
     <div class="form-group">
         <label>{{employee.fullName}}</label>
         <div>

@@ -26,6 +26,13 @@ app.post('/', (req, res, next) => {
         .catch(next);
 });
 
+app.put('/:id', (req, res, next) => {
+    Employee.findById(req.params.id)
+    .then ( employee => employee.update(req.body))
+    .then(() => res.redirect('/employees'))
+    .catch(next);
+})
+
 app.delete('/:id', (req, res, next) => {
     Employee.findById(req.params.id)
         .then(employee => employee.destroy())
