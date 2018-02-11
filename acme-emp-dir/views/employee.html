@@ -1,0 +1,23 @@
+{% extends './layout.html' %} {% block content %}
+<form action='/employees' method='POST'>
+    <div class="form-group">
+        <label>{{employee.fullName}}</label>
+        <div>
+            <input class="form-control" name='firstName' placeholder="Enter firstname" value="{{employee.firstName}}"/>
+        </div>
+        <div>
+            <input class="form-control" name='lastName' placeholder="Enter lastname" value="{{employee.lastName}}"/>
+        </div>
+        <div>
+            <input class="form-control" name='nickName' placeholder="Enter nickname" value="{{employee.nickName}}"/>
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-primary">Update Employee</button>
+    </div>
+</form>
+        <form method='POST' action='/employees/{{ employee.id }}?_method=DELETE'>
+            <button class="btn btn-danger"> Delete </button>
+        </form>
+</ul>
+{% endblock %}
