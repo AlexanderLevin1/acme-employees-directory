@@ -1,23 +1,14 @@
 {% extends './layout.html' %} {% block content %}
-<form action='/employees/{{ employee.id }}?_method=PUT' method='POST'>
-    <div class="form-group">
-        <label>{{employee.fullName}}</label>
-        <div>
-            <input class="form-control" name='firstName' placeholder="Enter firstname" value="{{employee.firstName}}"/>
-        </div>
-        <div>
-            <input class="form-control" name='lastName' placeholder="Enter lastname" value="{{employee.lastName}}"/>
-        </div>
-        <div>
-            <input class="form-control" name='nickName' placeholder="Enter nickname" value="{{employee.nickName}}"/>
-        </div>
-    </div>
-    <div>
-        <button class="btn btn-primary">Update Employee</button>
-    </div>
+<form method='POST' action='/employees/{{employee.id}}?_method=PUT' style='border: solid 1px black; border-radius: 5px;padding: 10px;'>
+    <input class='form-control' name='firstName' value='{{ employee.firstName }}' />
+    <br />
+    <input class='form-control' name='lastName' value='{{ employee.lastName }}' />
+    <br />
+    <input class='form-control' name='nicknames' value='{{ employee.nicknames }}' />
+    <br />
+    <button class='btn btn-primary'>Update</button>
 </form>
-        <form method='POST' action='/employees/{{ employee.id }}?_method=DELETE'>
-            <button class="btn btn-danger"> Delete </button>
-        </form>
-</ul>
+<form method='POST' action='/employees/{{employee.id}}?_method=DELETE'>
+    <button class='btn btn-danger'>Delete {{ employee.fullName }}</button>
+</form>
 {% endblock %}

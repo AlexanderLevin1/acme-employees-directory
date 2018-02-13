@@ -1,49 +1,74 @@
-const app = require('express').Router();
-const models = require('../db/Employee').models;
-const { Employee } = models;
+const router = require('express').Router();
+const db = require('../db');
+const { Employee } = db.models;
 
-module.exports = app;
 
-app.get('/', (req, res, next) => {
-    Employee.findAll({})
+router.use((req, res, next) => {
+    Employee.findAll()
         .then(employees => {
-            const count = employees.reduce((acc, e) => {
-                acc = acc.concat(e.nickName)
-                return acc;
-            }, [])
-            res.render('employees', { employees, title: 'Employees' , count: count});
+            const nickNameCount = employees.reduce((sum, employee) => {
+                return sum + employee.nicknames.length;
+            }, 0);
+
+            res.locals.employeeCount = employees.length;
+            res.locals.nicknameCount = nickNameCount;
+            res.locals.path = req.url;
+            next();
         })
         .catch(next);
 });
 
-app.get('/:id', (req, res, next) => {
+router.get('/', (req, res, next) => {
+    res.render('index', { title: 'Home' })
+});
+
+router.get('/employees', (req, res, next) => {
+    Employee.findAll()
+        .then(employees => {
+            res.render('employees', { title: 'Employees', employees })
+        })
+        .catch(next);
+})
+
+router.get('/employees/:id', (req, res, next) => {
     Employee.findById(req.params.id)
         .then(employee => {
-            res.render('employee', { employee, title: 'Employee' })
+            if (!employee) {
+                return res.sendStatus(404);
+            }
+            res.render('employee', { title: employee.fullName, employee })
         })
         .catch(next);
 })
 
-app.post('/', (req, res, next) => {
-    Employee.create(req.body)
-        .then(employee => res.redirect('/employees'))
+router.post('/employees', (req, res, next) => {
+    const employee = req.body;
+    Employee.create(employee)
+        .then(employee => res.redirect(`/employees/${employee.id}`))
         .catch(next);
 });
 
-app.put('/:id', (req, res, next) => {
+router.put('/employees/:id', (req, res, next) => {
     Employee.findById(req.params.id)
-    .then ( employee => employee.update(req.body))
-    .then(() => res.redirect('/employees'))
-    .catch(next);
-})
+        .then(employee => {
+            Object.assign(employee, req.body);
+            return employee.save();
+        })
+        .then (() => {
+            res.redirect('/employees')
+        })
+        .catch(next);
+});
 
-app.delete('/:id', (req, res, next) => {
+router.delete('/employees/:id', (req, res, next) => {
     Employee.findById(req.params.id)
-        .then(employee => employee.destroy())
+        .then(employee => {return employee.destroy()})
         .then(() => res.redirect('/employees'))
         .catch(next);
 });
 
+
+module.exports = router;
 
 
 

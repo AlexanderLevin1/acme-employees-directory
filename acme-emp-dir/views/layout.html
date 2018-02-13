@@ -1,16 +1,21 @@
 <html>
-  <head>
-    <title>{{ title }}</title>
-    <link rel='stylesheet' href='/vendor/bootstrap/dist/css/bootstrap.css' />
-  </head>
-  <body>
-    <div class='container'>
-      <h1>{{ title }}</h1>
-      {% include './nav.html' %}
-      <h3>We are a growing company, we currently have <span class = "badge badge-primary"> {{ employees.length}} </span> employees and <span class = "badge badge-primary"> {{ count.length }} </span> nicknames!</h3>
-      {% block content %}
-      {% endblock %}
-      </div>
+
+<head>
+  <link rel='stylesheet' href='/vendor/bootstrap/dist/css/bootstrap.css' />
+</head>
+
+<body>
+  <div class='container'>
+    <h1>Acme Employee Directory</h1>
+    <h2>{{ title }}</h2>
+    <div>
+      <h3>We are a growing company, we currently have
+        <span class="badge badge-primary"> {{ employeeCount }} </span> employees and
+        <span class="badge badge-primary"> {{ nicknameCount }} </span> nicknames!</h3>
     </div>
-  </body>
+    {% include './nav.html' %} {% block content %} {% endblock %}
+  </div>
+  </div>
+</body>
+
 </html>

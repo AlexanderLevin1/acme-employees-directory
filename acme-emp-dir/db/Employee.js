@@ -1,6 +1,5 @@
-const Sequelize = require('sequelize');
-
-const conn = new Sequelize(process.env.DATABASE_URL);
+const conn = require('./conn');
+const { Sequelize } = conn;
 
 const Employee = conn.define('employee', {
     firstName: {
@@ -19,45 +18,27 @@ const Employee = conn.define('employee', {
             notEmpty: true
         }
     },
-    nickName: {
+    nicknames: {
         type: Sequelize.ARRAY(Sequelize.STRING),
+        defaultValue: [],
         set: function (value) {
-            if ((typeof value) === 'string') this.setDataValue('nickName', value.split(','))
+            if ((typeof value) === 'string') {
+                var nicknames = value.split(',').filter(v => v.length > 0);
+                this.setDataValue('nicknames', nicknames)
+            }
+            else {
+                this.setDataValue('nicknames', value)
+            }
         }
     }
 }, {
         getterMethods: {
-            fullName() {
-                return this.firstName + ' ' + this.lastName;
+            fullName: function () {
+                return `${this.firstName} ${this.lastName}`;
             }
         }
-    }
-)
+    });
 
-const employeeNames = [
-    { firstName: 'Albert', lastName: 'Einstein' },
-    { firstName: 'John', lastName: 'vM' },
-    { firstName: 'Mickey', lastName: 'Mouse' }
-];
-
-const sync = () => {
-    return conn.sync({ force: true });
-};
-
-const seedEmployees = () => {
-    return Promise.all(employeeNames.map(name => Employee.create(name)));
-};
-
-const seed = () => {
-    return seedEmployees();
-};
-
-module.exports = {
-    models: {
-        Employee
-    },
-    sync,
-    seed
-}
+module.exports = Employee;
 
 

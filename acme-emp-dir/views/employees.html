@@ -1,28 +1,17 @@
 {% extends './layout.html' %} {% block content %}
-<form action='/employees' method='POST'>
-    <div class="form-group">
-        <label>Employee Name</label>
-        <div>
-            <input class="form-control" name='firstName' placeholder="Enter firstname" value="{{employee.firstName}}"/>
-        </div>
-        <div>
-            <input class="form-control" name='lastName' placeholder="Enter lastname" value="{{employee.lastName}}"/>
-        </div>
-        <div>
-            <input class="form-control" name='nickName' placeholder="Enter nickname" value="{{employee.nickName}}"/>
-        </div>
-        <div></div>
-    <div>
-        <button class="btn btn-primary">Create Employee</button>
-    </div>
+<form method='POST' style='border: solid 1px black; border-radius: 5px; padding: 10px;'>
+    <input name='firstName' placeholder='first name' />
+    <input name='lastName' placeholder='last name' />
+    <input name='nicknames' placeholder='nick names' />
+    <button class='btn btn-primary'>Create A New Employee</button>
 </form>
-<ul class="list-group">
+<ul>
     {% for employee in employees %}
-    <li class="list-group-item">
+    <li>
         <a href='/employees/{{employee.id}}'>
-            {{ employee.fullName }} 
-        </a> 
-        {{employee.nickName.length}} nicknames
+            {{ employee.fullName }}
+        </a>
+        {{ employee.nicknames.length }} nicknames
     </li>
     {% endfor %}
 </ul>
